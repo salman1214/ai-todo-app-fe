@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import { todosTable,usersTable } from '../../db/schema';
 import { db } from '../../db';
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { eq, ilike } from 'drizzle-orm';
+import { eq, like } from 'drizzle-orm';
 
 function parseAIResponse(responseText) {
     // console.log("responseText ======>> ", responseText);
@@ -134,7 +134,7 @@ async function searchTodosByKeyword(todo) {
     const todos = await db
         .select()
         .from(todosTable)
-        .where(ilike(todosTable.todo, `%${todo}%`));
+        .where(like(todosTable.todo, `%${todo}%`));
     return todos;
 }
 
